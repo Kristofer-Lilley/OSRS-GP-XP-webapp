@@ -12,15 +12,6 @@ function App() {
   const [itemIds, setItemIds] = useState(itemIdList);
   const customUserAgent = 'OSRS-GP-XP-Webapp/0.1, Discord: Shirt9276, Training calculator for Old School RuneScape';
 
-  function handleItemIDChange() {
-    const sortedEntries = Object.entries(itemIds).sort((a, b) => a[1] - b[1]);
-    const swappedEntries = sortedEntries.map(([key, value]) => [value, key]);
-    const sortedJsonObject = Object.fromEntries(swappedEntries);
-    setItemIds(sortedJsonObject);
-    console.log(sortedJsonObject)
-  }
-
-
 
   useEffect(() => {
     const fetchData = () => {
@@ -35,7 +26,7 @@ function App() {
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
     };
-    handleItemIDChange();
+
     fetchData();
     }, []);
 
@@ -44,10 +35,13 @@ function App() {
     } else {
     return (
       <div className="App">
-        {Object.entries(itemIds).map(([key, val]) => (
-          <p key={key}>
-          {val}
-        </p>
+        {Object.entries(itemIds)
+        .filter(([key, val]) =>  key[0] != "%")
+        .map(([key, val]) => (
+          <p key={val}>
+            {key}
+          </p>
+
       ))}
       </div>
       );
